@@ -64,7 +64,7 @@
   </data>
 
   <menuitem id="menu_headhunting" name="Headhunting" sequence="10"/>
-    <menuitem id="menu_headhunting_candidates" name="Candidates" parent="menu_headhunting" action="action_headhunting_candidates" sequence="10"/>
+    <menuitem id="menu_headhunting_candidates" name="Candidatos" parent="menu_headhunting" action="action_headhunting_candidates" sequence="10"/>
 
     <menuitem id="menu_candidate_comparison" name="Tabla de comparación" parent="menu_headhunting"  action= "action_candidate_comparison" />
 
