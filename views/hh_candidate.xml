@@ -51,6 +51,7 @@
         <form string="Candidatos">
           <sheet>
             <group>
+              <field name="partner_name" />
               <field name="partner_phone"/>
               <field name="partner_email"/>
               <field name="applicant_document_ids"/>

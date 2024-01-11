@@ -13,12 +13,12 @@ headhunting    """,
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','hr_recruitment','hr_contract','hr','documents','mail','hr_applicant','hr_skills','hr_skill'],
+    'depends': ['base','hr_recruitment','hr_contract','hr','documents','mail','sale_subscription'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        'views/hh.xml',
+        'views/hh_candidate.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
