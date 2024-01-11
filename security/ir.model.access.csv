@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+headhunting.access_headhunting_contract,access_headhunting_contract,headhunting.model_headhunting_contract,base.group_user,1,1,1,1
+headhunting.access_headhunting_job_position,access_headhunting_job_position,headhunting.model_headhunting_job_position,base.group_user,1,1,1,1
+headhunting.access_headhunting_candidate,access_headhunting_candidate,headhunting.model_headhunting_candidate,base.group_user,1,1,1,1
+headhunting.access_headhunting_recruiter,access_headhunting_recruiter,headhunting.model_headhunting_recruiter,base.group_user,1,1,1,1
+headhunting.access_headhunting_candidate_documents,access_headhunting_candidate_documents,headhunting.model_headhunting_candidate_documents,base.group_user,1,1,1,1
+headhunting.access_headhunting_interviewer,access_headhunting_interviewer,headhunting.model_headhunting_interviewer,base.group_user,1,1,1,1

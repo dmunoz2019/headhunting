@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="headhunting.CandidateComparison" owl="1">
+        <div class="ribbon ribbon-top-right "><span>En Desarrollo</span></div>
+
+        <div class="container mt-2">
+
+        <h2>Cuadro Comparativo de Candidatos</h2>
+
+        <div class="mb-3">
+            <label>Cliente:</label>
+            <p t-esc="state.clientName" />
+
+        </div>
+        <div class="mb-3">
+            <label>Puesto a contratar:</label>
+            <p t-esc="state.position" />
+        </div>
+        <div class="mb-3">
+            <label>Fecha:</label>
+            <p t-esc="state.date" />
+        </div>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Fotografía</th>
+                    <t t-foreach="state.candidates" t-as="candidate" t-key="candidate_index">
+                        <td>
+                            <img t-att-src="candidate.photo" class="img-fluid" style="max-width: 10em; height: auto;" />
+                        </td>
+                    </t>
+                </tr>
+                <!-- Sección de Información Personal -->
+                <tr class="table-secondary">
+                    <th>Información personal</th>
+                </tr>
+                    <tr >
+                        <th>Nombre de Candidato (a)</th>
+                        <t t-foreach="state.candidates" t-as="candidate" t-key="candidate_index">
+                            <td t-esc="candidate.name" />
+                        </t>
+                    </tr>
+                    <tr >
+                        <th>Edad</th>
+                        <t t-foreach="state.candidates" t-as="candidate" t-key="candidate_index">                            <td t-esc="candidate.age" />
+                        </t>
+                    </tr>
+                    <tr >
+                        <th>Estado civil</th>
+                        <t t-foreach="state.candidates" t-as="candidate" t-key="candidate_index">                            <td t-esc="candidate.maritalStatus" />
+                        </t>
+                    </tr>
+                    <tr >
+                        <th>Tiene hijos</th>
+                        <t t-foreach="state.candidates" t-as="candidate" t-key="candidate_index">
+                            <td t-esc="candidate.hasChildren" />
+                        </t>
+                    </tr>
+
+                <!-- Sección de Formación Académica -->
+                <tr class="table-secondary">
+                    <th>Formación académica</th>
+                </tr>
+                <tr>
+                    <th>Universidad</th>
+                    <t t-foreach="state.candidates" t-as="candidate" t-key="candidate_index">
+                        <td t-esc="candidate.university" />
+                    </t>
+                </tr>
+
+                <!-- Sección de Posición Geográfica -->
+                <tr class="table-secondary">
+                    <th>Posición Geográfica</th>
+                </tr>
+                <tr>
+                    <th>Nacionalidad</th>
+                    <t t-foreach="state.candidates" t-as="candidate" t-key="candidate_index">
+                        <td t-esc="candidate.nationality" />
+                    </t>
+                </tr>
+                <tr>
+                    <th>Lugar de residencia:</th>
+                    <t t-foreach="state.candidates" t-as="candidate" t-key="candidate_index">
+                        <td t-esc="candidate.residence" />
+                    </t>
+                </tr>
+
+                <!-- Sección de Habilidades -->
+                <tr class="table-secondary">
+                    <th>Habilidades</th>
+                </tr>
+                <tr>
+                    <th>Idioma:</th>
+                    <t t-foreach="state.candidates" t-as="candidate" t-key="candidate_index">
+                        <td t-esc="candidate.language" />
+                    </t>
+                </tr>
+
+                <!-- Otros campos irían aquí, repite el patrón para añadir más información -->
+
+                <!-- Sección de Perfil Requerido -->
+                <tr class="table-secondary">
+                    <th colspan="3">Perfil requerido: (de acuerdo al perfil en el anuncio publicado en plataforma)</th>
+                </tr>
+                <!-- Asume que 'requiredProfile' es un objeto en el estado que contiene estos detalles -->
+                <tr>
+                    <th>Estudios requeridos:</th>
+                    <td colspan="2" t-esc="state.requiredProfile.studies" />
+                </tr>
+                <!-- Repite para otros campos del perfil requerido -->
+
+                <!-- Sección de Observaciones del Entrevistador -->
+                <tr class="table-secondary">
+                    <th>Observaciones y recomendaciones del entrevistador:</th>
+                </tr>
+                <tr>
+                    <td colspan="3" t-esc="state.interviewerNotes" />
+                </tr>
+
+                <!-- Sección de Expectativa Salarial -->
+                <tr class="table-secondary">
+                    <th>Expectativa Salarial:</th>
+                </tr>
+                <tr>
+                    <td colspan="3" t-esc="state.salaryExpectation" />
+                </tr>
+            </tbody>
+
+            <!-- Enlaces a CVs -->
+            <tfoot>
+                <tr>
+                    <th>Enlaces a CV</th>
+                    <t t-foreach="state.candidates" t-as="candidate" t-key="candidate_index">
+                        <td>
+                            <a t-att-href="candidate.cvLink" target="_blank" class="btn btn-primary">Enlace a CV</a>
+                        </td>
+                    </t>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    </t>
+    </templates>
+    

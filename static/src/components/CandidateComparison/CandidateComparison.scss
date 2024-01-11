@@ -1,0 +1,15 @@
+html .o_web_client > .o_action_manager {
+    overflow: auto;
+    height: 100%;
+}
+
+.ribbon {
+    --Ribbon-wrapper-width-default: 20rem;
+}
+
+
+.ribbon span {
+
+    background-color: #e17822;
+
+}

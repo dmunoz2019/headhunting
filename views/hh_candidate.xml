@@ -1,0 +1,76 @@
+<odoo>
+  <data>
+
+    <!-- Menu -->
+    <!-- root -->
+
+    <record id="action_candidate_comparison" model="ir.actions.client">
+      <field name="name">Comparación de candidatos</field>
+      <field name="tag">headhunting.action_candidate_comparison</field>
+    </record>
+
+
+    <!-- Action -->
+    <record id="action_headhunting_candidates" model="ir.actions.act_window">
+      <field name="name">Candidatos</field>
+      <field name="res_model">headhunting.candidate</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[]</field>
+      <field name="context">{}</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click to add a new candidate
+        </p>
+      </field>
+    </record>
+
+
+
+    <!-- View -->
+    <record id="view_headhunting_candidates_tree" model="ir.ui.view">
+      <field name="name">headhunting.candidates.tree</field>
+      <field name="model">headhunting.candidate</field>
+      <field name="arch" type="xml">
+        <tree string="Candidates">
+          <field name="name"/>
+          <field name="partner_phone"/>
+          <field name="partner_linkedin"/>
+          <field name="partner_github"/>
+          <field name="applicant_document_ids"/>
+        </tree>
+      </field>
+
+    </record>
+
+
+    
+    <record id="view_headhunting_candidates_form" model="ir.ui.view">
+      <field name="name">headhunting.candidates.form</field>
+      <field name="model">headhunting.candidate</field>
+      <field name="arch" type="xml">
+        <form string="Candidatos">
+          <sheet>
+            <group>
+              <field name="partner_phone"/>
+              <field name="partner_email"/>
+              <field name="applicant_document_ids"/>
+          
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record> 
+  </data>
+
+  <menuitem id="menu_headhunting" name="Headhunting" sequence="10"/>
+    <menuitem id="menu_headhunting_candidates" name="Candidates" parent="menu_headhunting" action="action_headhunting_candidates" sequence="10"/>
+
+    <menuitem id="menu_candidate_comparison" name="Tabla de comparación" parent="menu_headhunting"  action= "action_candidate_comparison" />
+
+
+  <!-- parent -->
+
+  <!-- child -->
+
+  
+</odoo>
