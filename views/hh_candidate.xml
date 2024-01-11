@@ -49,24 +49,694 @@
       <field name="model">headhunting.candidate</field>
       <field name="arch" type="xml">
         <form string="Candidatos">
-          <sheet>
-            <group>
-              <field name="partner_name" />
-              <field name="partner_phone"/>
-              <field name="partner_email"/>
-              <field name="applicant_document_ids"/>
-          
-            </group>
-          </sheet>
+         
         </form>
       </field>
     </record> 
+
+      <!-- Vista Formulario -->
+      <record id="view_headhunting_client_form" model="ir.ui.view">
+        <field name="name">headhunting.client.form</field>
+        <field name="model">headhunting.client</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <notebook>
+                        <!-- Pestaña General -->
+                        <page string="General">
+                            <group>
+                                <field name="name" />
+                                <field name="phone" />
+                                <field name="email" />
+                                <!-- Agrega más campos aquí -->
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista Lista -->
+    <record id="view_headhunting_client_tree" model="ir.ui.view">
+        <field name="name">headhunting.client.tree</field>
+        <field name="model">headhunting.client</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="phone" />
+                <field name="email" />
+                <!-- Agrega más columnas aquí -->
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista Kanban -->
+    <record id="view_headhunting_client_kanban" model="ir.ui.view">
+        <field name="name">headhunting.client.kanban</field>
+        <field name="model">headhunting.client</field>
+        <field name="type">kanban</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_content">
+                            <div class="oe_kanban_primary">
+                                <field name="name" />
+                            </div>
+                            <div class="oe_kanban_secondary">
+                                <field name="phone" />
+                                <field name="email" />
+                                <!-- Agrega más campos aquí -->
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vista Cohorte -->
+    <!-- Define la vista de cohorte según tus necesidades -->
+
+    <!-- Vista Calendario -->
+    <!-- Define la vista de calendario según tus necesidades -->
+
+    <!-- Vista Actividad -->
+    <!-- Define la vista de actividad según tus necesidades -->
+
+    <!-- Acción -->
+
+     <!-- Action -->
+<record id="action_headhunting_client" model="ir.actions.act_window">
+    <field name="name">Clientes</field>
+    <field name="res_model">headhunting.client</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[]</field>
+    <field name="context">{}</field>
+    <field name="help" type="html">
+      <p class="oe_view_nocontent_create">
+        Click to add a new candidate
+      </p>
+    </field>
+  </record>
+
+  <!-- Contrato -->
+
+      <!-- Vista Formulario -->
+      <record id="view_headhunting_contract_form" model="ir.ui.view">
+        <field name="name">headhunting.contract.form</field>
+        <field name="model">headhunting.contract</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Contrato de servicios" class="o_sale_order">
+              <header>
+                <field name="locked" invisible="1" field_id="locked_0"/>
+                <field name="authorized_transaction_ids" invisible="1" field_id="authorized_transaction_ids_0"/>
+                <!-- <button name="payment_action_capture" type="object" data-hotkey="shift+g" string="Capturar transacción" class="oe_highlight" invisible="not authorized_transaction_ids"/> -->
+                <!-- <button name="payment_action_void" type="object" string="Transacción nula" data-hotkey="shift+v" confirm="¿Está seguro de que desea anular la transacción autorizada? Esta acción no se puede deshacer." invisible="not authorized_transaction_ids"/> -->
+                <!-- <button string="Reanudar" name="resume_subscription" type="object" data-hotkey="r" class="btn-primary" invisible="subscription_state != '4_paused'"/> -->
+                <button id="create_invoice" name="448" string="Crear factura" type="action" class="btn-primary" data-hotkey="c" invisible="is_subscription and state != 'sale' or invoice_status != 'to invoice'"/>
+                <button id="create_invoice_sub" name="448" string="Crear factura" type="action" class="btn-secondary" data-hotkey="q" invisible="not is_subscription or state != 'sale' or invoice_status == 'to invoice'"/>
+                <button id="create_invoice_percentage" name="448" string="Crear factura" type="action" context="{'default_advance_payment_method': 'percentage'}" data-hotkey="c" invisible="is_subscription or invoice_status != 'no' or state != 'sale'"/>
+                <!-- <button name="action_quotation_send" id="send_by_email_primary" string="Enviar por correo electrónico" type="object" data-hotkey="g" invisible="state != 'draft'" class="btn-primary" context="{'validate_analytic': True}"/> -->
+                <!-- <button name="action_confirm" id="action_confirm" data-hotkey="q" string="Confirmar" class="btn-primary" type="object" context="{'validate_analytic': True}" invisible="state != 'sent'"/>
+                <button name="action_confirm" data-hotkey="q" string="Confirmar" type="object" context="{'validate_analytic': True}" invisible="state != 'draft'"/> -->
+                <!-- <button name="action_quotation_send" id="send_by_email" string="Enviar por correo electrónico" type="object" invisible="state not in ('sent', 'sale')" data-hotkey="g" context="{'validate_analytic': True}"/> -->
+
+                <!-- allow to unlock locked orders even if setting is not enabled (e.g. orders synchronized from connectors) -->
+                <!-- <button name="action_unlock" type="object" string="Desbloquear" invisible="not locked"/> -->
+                <!-- <button name="action_preview_sale_order" string="Vista previa" type="object" class="btn-secondary"/> -->
+                <!-- <button string="Crear alternativa" name="create_alternative" type="object" invisible="subscription_state != '2_renewal' or state not in ['draft', 'sent']"/>
+                <button string="Crear alternativa" name="create_alternative" type="object" context="{'default_subscription_state': '7_upsell'}" invisible="subscription_state != '7_upsell' or state not in ['draft', 'sent']"/>
+                <button name="action_cancel" type="object" string="Cancelar" invisible="not id or state not in ['draft', 'sent', 'sale']" data-hotkey="x"/>
+                <button string="Venta adicional" name="prepare_upsell_order" type="object" invisible="not is_subscription or subscription_state not in ['3_progress', '4_paused'] or state != 'sale'" data-hotkey="z"/>
+                <button string="Renovar" name="prepare_renewal_order" type="object" data-hotkey="w" invisible="not is_subscription or subscription_state not in ['3_progress', '4_paused', '6_churn'] or state != 'sale'"/>
+                <button string="Volver a abrir" name="reopen_order" type="object" data-hotkey="o" invisible="not is_subscription or subscription_state != '6_churn' or state != 'sale'"/>
+                 Change the label of cancel button for subscription -->
+                <button name="483" type="action" string="Cerrar" invisible="subscription_state not in ['3_progress', '4_paused'] or not id" data-hotkey="x"/>
+                <!-- <button name="action_draft" invisible="state != 'cancel'" type="object" string="Establecer como cotización" data-hotkey="w"/> -->
+                <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale" on_change="1" field_id="state_0"/>
+                <field name="is_subscription" invisible="1" on_change="1" field_id="is_subscription_0"/>
+                <field name="subscription_state" invisible="1" on_change="1" field_id="subscription_state_0"/>
+                <field name="end_date" invisible="1" field_id="end_date_0"/>
+                <field name="archived_product_count" invisible="1" field_id="archived_product_count_0"/>
+                <field name="has_recurring_line" invisible="1" field_id="has_recurring_line_0"/>
+            </header>
+                <div role="alert" class="alert alert-warning mb-0 p-3 text-center" invisible="archived_product_count == 0">
+                    <!-- <button name="action_archived_product" type="object" class="btn-link"> -->
+                        <!-- <field name="archived_product_count" field_id="archived_product_count_1"/>
+                        productos archivados
+                    </button> -->
+                    <span class="align-middle">para esta suscripción.</span>
+                </div>
+            <div class="alert alert-warning mb-0" role="alert" invisible="partner_credit_warning == ''">
+                <field name="partner_credit_warning" field_id="partner_credit_warning_0"/>
+            </div>
+            <sheet>
+                <div class="oe_button_box" name="button_box">
+                    <!-- <button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" invisible="invoice_count == 0">
+                        <field name="invoice_count" widget="statinfo" string="Facturas" field_id="invoice_count_0"/>
+                    </button> -->
+                <!-- <button invisible="not is_renewing" name="open_subscription_renewal" class="oe_stat_button" icon="fa-repeat" type="object">
+                    <field name="renewal_count" widget="statinfo" string="Cotización de renovación" field_id="renewal_count_0"/>
+                </button>
+                <button invisible="not is_upselling" name="open_subscription_upsell" class="oe_stat_button" icon="fa-arrow-circle-o-up" type="object">
+                    <field name="upsell_count" widget="statinfo" string="Cotización de venta adicional" field_id="upsell_count_0"/>
+                </button>
+                <button invisible="history_count &lt; 2" name="open_subscription_history" class="oe_stat_button" icon="fa-dollar" type="object">
+                    <field name="history_count" widget="statinfo" string="Historial de ventas" field_id="history_count_0"/>
+                </button>
+                <button invisible="not is_subscription or subscription_state in ['1_draft', '2_renewal']" name="action_sale_order_log" class="oe_stat_button" icon="fa-line-chart" type="object">
+                    <field name="recurring_monthly" widget="statinfo" string="MRR" field_id="recurring_monthly_0"/>
+                 </button> -->
+                </div>
+                <field name="payment_exception" invisible="1" field_id="payment_exception_0"/>
+                <div class="px-2 rounded-pill text-bg-danger float-end" invisible="not payment_exception">Pago fallido</div>
+                <field name="pending_transaction" invisible="1" field_id="pending_transaction_0"/>
+                <div class="px-2 rounded-pill text-bg-warning float-end" invisible="not pending_transaction">Transacción pendiente</div>
+                <field name="is_subscription" invisible="1" on_change="1" field_id="is_subscription_1"/>
+                <field name="is_upselling" invisible="1" field_id="is_upselling_0"/>
+                <field name="is_renewing" invisible="1" field_id="is_renewing_0"/>
+                <field name="origin_order_id" invisible="1" on_change="1" field_id="origin_order_id_0"/>
+                <field name="subscription_state" invisible="1" on_change="1" field_id="subscription_state_1"/>
+                <field name="display_late" invisible="1" field_id="display_late_0"/>
+                <!-- <button class="float-end fs-6 btn" type="object" name="subscription_open_related" invisible="subscription_state not in ['2_renewal', '5_renewed', '7_upsell'] or state not in ['draft', 'sent']">
+                    <field name="subscription_state" widget="badge" decoration-info="subscription_state in ['2_renewal']" decoration-primary="subscription_state in ['7_upsell']" decoration-secondary="subscription_state in ['5_renewed']" on_change="1" field_id="subscription_state_2"/>
+                </button>-->
+                <field name="subscription_state" class="float-end fs-6" invisible="subscription_state not in ['3_progress', '4_paused', '6_churn'] or state == 'cancel'" widget="badge" decoration-info="subscription_state in ['1_draft']" decoration-success="subscription_state in ['3_progress']" decoration-warning="subscription_state in ['4_paused']" decoration-danger="subscription_state in ['6_churn']" on_change="1" field_id="subscription_state_3"/>
+                <div name="subscription_quotation_pill" class="float-end fs-6 badge rounded-pill fw-bold text-bg-info" invisible="subscription_state != '1_draft' or state not in ['draft', 'sent']">Cotización de la suscripción</div>
+                <div name="subscription_to_renew" class="float-end fs-6 badge rounded-pill fw-bold text-bg-warning" invisible="not display_late">Por renovar</div>
+                <div class="badge rounded-pill text-bg-secondary float-end fs-6 border-0" invisible="not locked">
+                    <i class="fa fa-lock"/>
+                    Bloqueada
+                </div>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" readonly="1" field_id="name_0"/>
+                    </h1>
+                </div>
+                <group name="sale_header">
+                    <group name="partner_details">
+                        <field name="partner_id" widget="res_partner_many2one" context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}" placeholder="Comience a escribir para encontrar a un cliente..." readonly="state in ['cancel', 'sale']" on_change="1" can_create="True" can_write="True" field_id="partner_id_0"/>
+                        </group>
+                    <group name="order_details">
+                        <field name="validity_date" invisible="state == 'sale'" readonly="state in ['cancel', 'sale']" field_id="validity_date_0"/>
+                        <div class="o_td_label" invisible="state in ['sale', 'cancel']">
+                            <label for="date_order" string="Fecha de cotización"/>
+                        </div>
+                        <field name="date_order" nolabel="1" invisible="state in ['sale', 'cancel']" readonly="state in ['cancel', 'sale']" on_change="1" field_id="date_order_0"/>
+                        <div class="o_td_label" invisible="state in ['draft', 'sent']">
+                            <label for="date_order" string="Fecha de la orden"/>
+                        </div>
+                        <field name="date_order" invisible="state in ['draft', 'sent']" readonly="state in ['cancel', 'sale']" nolabel="1" on_change="1" field_id="date_order_1"/>
+                        <field name="has_active_pricelist" invisible="1" field_id="has_active_pricelist_0"/>
+                <label name="plan_label" for="plan_id" invisible="not plan_id and state in ['sale', 'cancel']"/>
+                 <div name="plan_block" class="o_row" invisible="not plan_id and state in ['sale', 'cancel']">
+                    <field name="plan_id" readonly="subscription_state == '7_upsell'" options="{'no_create': True}" on_change="1" can_create="True" can_write="True" field_id="plan_id_0"/>
+                    <span invisible="not plan_id or subscription_state == '7_upsell'">hasta</span>
+                    <field name="end_date" invisible="not plan_id or subscription_state == '7_upsell'" field_id="end_date_1"/>
+                </div>
+                <field name="next_invoice_date" invisible="subscription_state not in ['3_progress', '4_paused'] or not plan_id" required="plan_id and state == 'sale'" on_change="1" field_id="next_invoice_date_0"/>
+                <field name="close_reason_id" invisible="subscription_state != '6_churn'" can_create="True" can_write="True" field_id="close_reason_id_0"/>
+                <field name="show_update_pricelist" invisible="1" field_id="show_update_pricelist_0"/>
+                        <field name="country_code" invisible="1" field_id="country_code_0"/>
+                        <field name="company_id" invisible="1" on_change="1" can_create="True" can_write="True" field_id="company_id_0"/>
+                        <field name="currency_id" invisible="1" on_change="1" field_id="currency_id_0"/>
+                        <field name="pricelist_id" invisible="1" readonly="state in ['cancel', 'sale']" on_change="1" can_create="True" can_write="True" field_id="pricelist_id_0"/>
+                        <field name="tax_country_id" invisible="1" field_id="tax_country_id_0"/>
+                        <field name="tax_calculation_rounding_method" invisible="1" field_id="tax_calculation_rounding_method_0"/>
+                        <field name="payment_term_id" options="{'no_open': True, 'no_create': True}" can_create="True" can_write="True" field_id="payment_term_id_0"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Líneas de la orden" name="order_lines">
+                        <field name="order_line" widget="section_and_note_one2many" mode="tree,kanban" readonly="state == 'cancel' or locked" on_change="1" field_id="order_line_0">
+                            <form>
+                                <field name="display_type" invisible="1" on_change="1" field_id="display_type_0"/>
+                                <!--
+                                    We need the sequence field to be here for new lines to be added at the correct position.
+                                    TODO: at some point we want to fix this in the framework so that an invisible field is not required.
+                                -->
+                                <field name="sequence" invisible="1" field_id="sequence_0"/>
+                                <field name="product_uom_category_id" invisible="1" field_id="product_uom_category_id_0"/>
+                                <group>
+                                    <group invisible="display_type">
+                                        <field name="product_updatable" invisible="1" field_id="product_updatable_0"/>
+                                        <field name="product_id" domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'company_id': parent.company_id}" readonly="not product_updatable" required="not display_type" force_save="1" widget="many2one_barcode" on_change="1" can_create="True" can_write="True" field_id="product_id_0"/>
+                                        <field name="product_type" invisible="1" field_id="product_type_0"/>
+                                        <field name="invoice_status" invisible="1" on_change="1" field_id="invoice_status_0"/>
+                                        <field name="qty_to_invoice" invisible="1" on_change="1" field_id="qty_to_invoice_0"/>
+                                        <field name="qty_delivered_method" invisible="1" on_change="1" field_id="qty_delivered_method_0"/>
+                                        <field name="price_total" invisible="1" on_change="1" field_id="price_total_0"/>
+                                        <field name="price_tax" invisible="1" on_change="1" field_id="price_tax_0"/>
+                                        <field name="price_subtotal" invisible="1" on_change="1" field_id="price_subtotal_0"/>
+                                        <field name="product_uom_readonly" invisible="1" field_id="product_uom_readonly_0"/>
+                                        <label for="product_uom_qty"/>
+                                        <div class="o_row" name="ordered_qty">
+                                            <field context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'uom_qty_change':True, 'company_id': parent.company_id}" name="product_uom_qty" on_change="1" field_id="product_uom_qty_0"/>
+                                            <field name="product_uom" invisible="1" on_change="1" can_create="True" can_write="True" field_id="product_uom_0"/>
+                                            </div>
+                                        <label for="qty_delivered" string="Entregado" invisible="parent.state != 'sale'"/>
+                                        <div name="delivered_qty" invisible="parent.state != 'sale'">
+                                            <field name="qty_delivered" readonly="qty_delivered_method != 'manual'" on_change="1" field_id="qty_delivered_0"/>
+                                        </div>
+                                        <label for="qty_invoiced" string="Facturado" invisible="parent.state != 'sale'"/>
+                                        <div name="invoiced_qty" invisible="parent.state != 'sale'">
+                                            <field name="qty_invoiced" on_change="1" field_id="qty_invoiced_0"/>
+                                        </div>
+                                        <field name="price_unit" on_change="1" field_id="price_unit_0"/>
+                                        <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','sale'), ('company_id','=',parent.company_id), ('country_id', '=', parent.tax_country_id)]" readonly="qty_invoiced &gt; 0" on_change="1" can_create="True" can_write="True" field_id="tax_id_0"/>
+                                        <label for="discount"/>
+                                            <div name="discount">
+                                                <field name="discount" class="oe_inline" on_change="1" field_id="discount_0"/> %
+                                            </div>
+                                        
+                                        <!--
+                                            We need the sequence field to be here
+                                            because we want to be able to overwrite the default sequence value in the JS
+                                            in order for new lines to be added at the correct position.
+                                            NOTE: at some point we want to fix this in the framework so that an invisible field is not required.
+                                        -->
+                                        <field name="sequence" invisible="1" field_id="sequence_1"/>
+                                    </group>
+                                    <group invisible="display_type">
+                                        <label for="customer_lead"/>
+                                        <div name="lead">
+                                            <field name="customer_lead" class="oe_inline" on_change="1" field_id="customer_lead_0"/> días
+                                        </div>
+                                        </group>
+                                </group>
+                                <label for="name" string="Descripción" invisible="display_type"/>
+                                <label for="name" string="Nombre de la sección (por ejemplo, productos, servicios)" invisible="display_type != 'line_section'"/>
+                                <label for="name" string="Nota" invisible="display_type != 'line_note'"/>
+                                <field name="name" field_id="name_0"/>
+                                <div name="invoice_lines" invisible="display_type">
+                                    <label for="invoice_lines"/>
+                                    <field name="invoice_lines" on_change="1" can_create="True" can_write="True" field_id="invoice_lines_0"/>
+                                </div>
+                                <field name="state" invisible="1" on_change="1" field_id="state_0"/>
+                                <field name="company_id" invisible="1" on_change="1" field_id="company_id_0"/>
+                            </form>
+                            <tree string="Líneas de la orden de venta" editable="bottom" limit="200">
+                                <control>
+                                    <create name="add_product_control" string="Agregar un producto"/>
+                                    <create name="add_section_control" string="Agregar una sección" context="{'default_display_type': 'line_section'}"/>
+                                    <create name="add_note_control" string="Agregar una nota" context="{'default_display_type': 'line_note'}"/>
+                                    <button name="action_add_from_catalog" string="Catálogo" type="object" class="px-4 btn-link" context="{'order_id': parent.id}"/>
+                                </control>
+
+                                <field name="sequence" widget="handle" field_id="sequence_0"/>
+                                <!-- We do not display the type because we don't want the user to be bothered with that information if he has no section or note. -->
+                                <field name="display_type" column_invisible="True" on_change="1" field_id="display_type_0"/>
+                                <field name="product_uom_category_id" column_invisible="True" field_id="product_uom_category_id_0"/>
+                                <field name="product_type" column_invisible="True" field_id="product_type_0"/>
+                                <field name="product_updatable" column_invisible="True" field_id="product_updatable_0"/>
+                                <field name="is_downpayment" column_invisible="True" field_id="is_downpayment_0"/>
+                                <field name="product_id" readonly="not product_updatable" required="not display_type" force_save="1" context="&#10;                    {&#10;                    'partner_id': parent.partner_id,&#10;                    'quantity': product_uom_qty,&#10;                    'pricelist': parent.pricelist_id,&#10;                    'uom':product_uom,&#10;                    'company_id': parent.company_id,&#10;                    'default_lst_price': price_unit,&#10;                    'default_description_sale': name,&#10;                    'default_recurring_invoice': True&#10;                    }&#10;                " options="{                                         'no_open': True,                                     }" domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" widget="sol_product_many2one" optional="hide" string="Variante del producto" on_change="1" can_create="True" can_write="True" field_id="product_id_0"/>
+                                <field name="product_template_id" string="Producto" column_invisible="0" readonly="not product_updatable" required="not display_type" context="&#10;                    {&#10;                    'partner_id': parent.partner_id,&#10;                    'quantity': product_uom_qty,&#10;                    'pricelist': parent.pricelist_id,&#10;                    'uom':product_uom,&#10;                    'company_id': parent.company_id,&#10;                    'default_lst_price': price_unit,&#10;                    'default_description_sale': name,&#10;                    'default_recurring_invoice': True&#10;                    }&#10;                " options="{                                         'no_open': True,                                     }" domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" widget="sol_product_many2one" placeholder="Comience a escribir para encontrar un producto..." on_change="1" can_create="True" can_write="True" field_id="product_template_id_0"/>
+                <field name="product_template_attribute_value_ids" column_invisible="1" field_id="product_template_attribute_value_ids_0"/>
+                <field name="product_custom_attribute_value_ids" column_invisible="1" field_id="product_custom_attribute_value_ids_0">
+                    <tree>
+                        <field name="custom_product_template_attribute_value_id" field_id="custom_product_template_attribute_value_id_0"/>
+                        <field name="custom_value" field_id="custom_value_0"/>
+                    </tree>
+                </field>
+                <field name="product_no_variant_attribute_value_ids" column_invisible="1" can_create="True" can_write="True" field_id="product_no_variant_attribute_value_ids_0"/>
+                <field name="is_configurable_product" column_invisible="1" field_id="is_configurable_product_0"/>
+                                <field name="name" widget="section_and_note_text" optional="show" field_id="name_0"/>
+                <field name="recurring_invoice" column_invisible="True" on_change="1" field_id="recurring_invoice_0"/>
+                                <field name="product_uom_qty" decoration-info="(not display_type and invoice_status == 'to invoice')" decoration-bf="(not display_type and invoice_status == 'to invoice')" context="{                                         'partner_id': parent.partner_id,                                         'quantity': product_uom_qty,                                         'pricelist': parent.pricelist_id,                                         'uom': product_uom,                                         'company_id': parent.company_id                                     }" readonly="is_downpayment" on_change="1" field_id="product_uom_qty_0"/>
+                                <field name="qty_delivered" decoration-info="(not display_type and invoice_status == 'to invoice')" decoration-bf="(not display_type and invoice_status == 'to invoice')" string="Entregado" column_invisible="parent.state != 'sale'" readonly="qty_delivered_method != 'manual' or is_downpayment" optional="show" on_change="1" field_id="qty_delivered_0"/>
+                                <field name="qty_delivered_method" column_invisible="True" on_change="1" field_id="qty_delivered_method_0"/>
+                                <field name="qty_invoiced" decoration-info="(not display_type and invoice_status == 'to invoice')" decoration-bf="(not display_type and invoice_status == 'to invoice')" string="Facturado" column_invisible="parent.state != 'sale'" optional="show" on_change="1" field_id="qty_invoiced_0"/>
+                                <field name="qty_to_invoice" column_invisible="True" on_change="1" field_id="qty_to_invoice_0"/>
+                                <field name="product_uom_readonly" column_invisible="True" field_id="product_uom_readonly_0"/>
+                                <field name="product_uom" column_invisible="True" on_change="1" can_create="True" can_write="True" field_id="product_uom_0"/>
+                                <field name="customer_lead" optional="hide" readonly="parent.state not in ['draft', 'sent', 'sale'] or is_downpayment" on_change="1" field_id="customer_lead_0"/>
+                                <field name="price_unit" readonly="qty_invoiced &gt; 0" on_change="1" field_id="price_unit_0"/>
+                                <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id), ('country_id', '=', parent.tax_country_id)]" context="{'active_test': True}" readonly="qty_invoiced &gt; 0 or is_downpayment" optional="show" on_change="1" can_create="True" can_write="True" field_id="tax_id_0"/>
+                                <field name="discount" string="% de desc." optional="show" on_change="1" field_id="discount_0"/>
+                                <field name="is_downpayment" column_invisible="True" field_id="is_downpayment_1"/>
+                                <field name="price_subtotal" string="Impuestos excl." invisible="is_downpayment" decoration-info="recurring_invoice" on_change="1" field_id="price_subtotal_0"/>
+                                <field name="price_total" string="Impuestos incl." column_invisible="parent.tax_calculation_rounding_method == 'round_globally'" invisible="is_downpayment" optional="hide" decoration-info="recurring_invoice" on_change="1" field_id="price_total_0"/>
+                                <!-- Others fields -->
+                                <field name="tax_calculation_rounding_method" column_invisible="True" field_id="tax_calculation_rounding_method_0"/>
+                                <field name="state" column_invisible="True" on_change="1" field_id="state_0"/>
+                                <field name="invoice_status" column_invisible="True" on_change="1" field_id="invoice_status_0"/>
+                                <field name="currency_id" column_invisible="True" field_id="currency_id_0"/>
+                                <field name="price_tax" column_invisible="True" on_change="1" field_id="price_tax_0"/>
+                                <field name="company_id" column_invisible="True" on_change="1" field_id="company_id_0"/>
+                            </tree>
+                            <kanban class="o_kanban_mobile">
+                                <field name="name" field_id="name_0"/>
+                                <field name="product_id" on_change="1" field_id="product_id_0"/>
+                                <field name="product_uom_qty" on_change="1" field_id="product_uom_qty_0"/>
+                                <field name="product_uom" on_change="1" field_id="product_uom_0"/>
+                                <field name="price_subtotal" on_change="1" field_id="price_subtotal_0"/>
+                                <field name="price_total" on_change="1" field_id="price_total_0"/>
+                                <field name="price_tax" on_change="1" field_id="price_tax_0"/>
+                                <field name="price_total" on_change="1" field_id="price_total_1"/>
+                                <field name="price_unit" on_change="1" field_id="price_unit_0"/>
+                                <field name="display_type" on_change="1" field_id="display_type_0"/>
+                                <field name="tax_id" on_change="1" widget="many2many_tags" field_id="tax_id_0"/>
+                                <field name="company_id" on_change="1" field_id="company_id_0"/>
+                                <field name="tax_calculation_rounding_method" field_id="tax_calculation_rounding_method_0"/>
+                                <control>
+                                    <create name="add_product_control" string="Agregar un producto"/>
+                                    <create name="add_section_control" string="Agregar una sección" context="{'default_display_type': 'line_section'}"/>
+                                    <create name="add_note_control" string="Agregar una nota" context="{'default_display_type': 'line_note'}"/>
+                                    <button name="action_add_from_catalog" context="{'order_id': parent.id}" string="Catálogo" type="object" class="btn-secondary"/>
+                                </control>
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div t-attf-class="oe_kanban_card oe_kanban_global_click ps-0 pe-0 {{ record.display_type.raw_value ? 'o_is_' + record.display_type.raw_value : '' }}">
+                                            <t t-if="!record.display_type.raw_value">
+                                                <div class="row g-0">
+                                                    <div class="col-2 pe-3">
+                                                        <img t-att-src="kanban_image('product.product', 'image_128', record.product_id.raw_value)" t-att-title="record.product_id.value" t-att-alt="record.product_id.value" style="max-width: 100%;"/>
+                                                    </div>
+                                                    <div class="col-10">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <strong t-out="record.product_id.value"/>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <strong>Impuestos excl.: </strong>
+                                                                <t t-set="line_price" t-value="record.price_subtotal.value"/>
+                                                                <strong class="float-end text-end" t-out="line_price"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-12 text-muted">
+                                                                Cantidad:
+                                                                <t t-out="record.product_uom_qty.value"/> <t t-out="record.product_uom.value"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col text-muted">
+                                                                Precio unitario:
+                                                                <t t-out="record.price_unit.value"/>
+                                                            </div>
+                                                            <div class="col-auto" t-if="record.tax_calculation_rounding_method.raw_value === 'round_per_line'">
+                                                                <strong>Impuestos incl.: </strong>
+                                                                <t t-set="line_price" t-value="record.price_total.value"/>
+                                                                <strong class="float-end text-end" t-out="line_price"/>
+                                                            </div>
+                                                        </div>
+                                                        <t t-if="record.discount?.raw_value">
+                                                            <div class="row">
+                                                                <div class="col-12 text-muted">
+                                                                    Descuento:
+                                                                    <t t-out="record.discount.value"/>%
+                                                                </div>
+                                                            </div>
+                                                        </t>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                            <t t-if="record.display_type.raw_value === 'line_section' || record.display_type.raw_value === 'line_note'">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <t t-out="record.name.value"/>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field>
+                        <div class="float-end d-flex gap-1 mb-2 ms-1" name="so_button_below_order_lines">
+                            <!-- <button string="Descuento" name="action_open_discount_wizard" type="object" class="btn btn-secondary"/> -->
+                        </div>
+                        <group name="note_group" col="6" class="mt-2 mt-md-0">
+                            <group colspan="4">
+                                <field colspan="2" name="note" nolabel="1" placeholder="Términos y condiciones..." field_id="note_0"/>
+                            </group>
+                            <group class="oe_subtotal_footer" colspan="2" name="sale_total">
+                                <field name="tax_totals" widget="account-tax-totals-field" nolabel="1" colspan="2" readonly="1" field_id="tax_totals_0"/>
+                <field name="recurring_details" nolabel="1" colspan="2" field_id="recurring_details_0"/>
+                            </group>
+                            <div class="clearfix"/>
+                        </group>
+                    </page>
+                <page string="Productos opcionales" name="optional_products" invisible="state not in ['draft', 'sent']">
+                    <field name="sale_order_option_ids" mode="tree,kanban" readonly="state in ['cancel', 'sale']" field_id="sale_order_option_ids_0">
+                        <form string="Productos opcionales">
+                            <group>
+                                <field name="product_id" domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" on_change="1" can_create="True" can_write="True" field_id="product_id_0"/>
+                                <field name="name" field_id="name_0"/>
+                                <field name="quantity" on_change="1" field_id="quantity_0"/>
+                                <field name="product_uom_category_id" invisible="1" field_id="product_uom_category_id_0"/>
+                                <field name="price_unit" field_id="price_unit_0"/>
+                                <field name="discount" field_id="discount_0"/>
+                                <field name="is_present" field_id="is_present_0"/>
+                            </group>
+                        </form>
+                        <kanban class="o_kanban_mobile">
+                            <field name="product_id" on_change="1" field_id="product_id_0"/>
+                            <field name="quantity" on_change="1" field_id="quantity_0"/>
+                            <field name="price_unit" field_id="price_unit_0"/>
+                            <field name="is_present" field_id="is_present_0"/>
+                            <templates>
+                                <t t-name="kanban-box">
+                                    <div class="oe_kanban_card oe_kanban_global_click">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <strong>
+                                                    <span>
+                                                        <t t-out="record.product_id.value"/>
+                                                    </span>
+                                                </strong>
+                                            </div>
+                                            <div class="col-2">
+                                                <button name="button_add_to_order" class="btn btn-link oe_link fa fa-shopping-cart" title="Agregar a las líneas de la orden" type="object" invisible="is_present"/>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 text-muted">
+                                                <span>
+                                                    Cantidad:
+                                                    <t t-out="record.quantity.value"/>
+                                                    </span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 text-muted">
+                                                <span>
+                                                    Precio unitario:
+                                                    <t t-out="record.price_unit.value"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </templates>
+                        </kanban>
+                        <tree string="Líneas de la plantilla de la orden de venta" editable="bottom" decoration-success="is_present == True">
+                            <control>
+                                <create name="add_product_control" string="Agregar un producto"/>
+                            </control>
+                            <field name="sequence" widget="handle" field_id="sequence_0"/>
+                            <field name="product_id" domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" on_change="1" can_create="True" can_write="True" field_id="product_id_0"/>
+                            <field name="name" optional="show" field_id="name_0"/>
+                            <field name="quantity" on_change="1" field_id="quantity_0"/>
+                            <field name="product_uom_category_id" column_invisible="True" field_id="product_uom_category_id_0"/>
+                            <field name="price_unit" field_id="price_unit_0"/>
+                            <field name="discount" string="% de descuento" optional="show" field_id="discount_0"/>
+                            <field name="is_present" column_invisible="True" field_id="is_present_0"/>
+                            <button name="button_add_to_order" type="object" class="oe_link" icon="fa-shopping-cart" title="Agregar a las líneas de la orden" invisible="is_present"/>
+                        </tree>
+                    </field>
+                </page>
+                    <page string="Más información" name="other_information">
+                        <group>
+                            <group name="sales_person" string="Ventas">
+                                <field name="user_id" widget="many2one_avatar_user" on_change="1" can_create="True" can_write="True" field_id="user_id_0"/>
+                                <field name="team_id" context="{'kanban_view_ref': 'sales_team.crm_team_view_kanban'}" options="{'no_create': True}" on_change="1" can_create="True" can_write="True" field_id="team_id_0"/>
+                                <field name="require_signature" readonly="state in ['cancel', 'sale']" field_id="require_signature_0"/>
+                                <label for="require_payment"/>
+                                <div id="require_payment">
+                                    <field name="require_payment" readonly="state in ['cancel', 'sale']" on_change="1" field_id="require_payment_0"/>
+                                    <span class="mx-3" invisible="not require_payment">of</span>
+                                    <field name="prepayment_percent" readonly="state in ['cancel', 'sale']" invisible="not require_payment" widget="percentage" style="width: 3rem" on_change="1" field_id="prepayment_percent_0"/>
+                                </div>
+                                <field name="reference" readonly="1" invisible="not reference" field_id="reference_0"/>
+                                <field name="client_order_ref" field_id="client_order_ref_0"/>
+                                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" can_create="True" can_write="True" field_id="tag_ids_0"/>
+                            </group>
+                <group name="subscription_info" string="Suscripción" invisible="not is_subscription and subscription_state != '7_upsell'">
+                    <field name="start_date" readonly="subscription_state == '2_renew'" on_change="1" field_id="start_date_0"/>
+                    <field name="first_contract_date" invisible="not origin_order_id" field_id="first_contract_date_0"/>
+                    <field name="origin_order_id" readonly="1" invisible="not origin_order_id" on_change="1" field_id="origin_order_id_1"/>
+                    <field name="subscription_id" readonly="1" on_change="1" field_id="subscription_id_0"/>
+                    <field name="payment_token_id" options="{'no_create': 'True'}" can_create="True" can_write="True" field_id="payment_token_id_0"/>
+                    <field name="payment_exception" field_id="payment_exception_1"/>
+                    <field name="pending_transaction" field_id="pending_transaction_1"/>
+                </group>
+                <field name="commercial_partner_id" invisible="1" field_id="commercial_partner_id_0"/>
+                            <group name="sale_info" string="Facturación">
+                                <field name="show_update_fpos" invisible="1" field_id="show_update_fpos_0"/>
+                                <label for="fiscal_position_id"/>
+                                <div class="o_row">
+                                    <field name="fiscal_position_id" options="{'no_create': True}" on_change="1" can_create="True" can_write="True" field_id="fiscal_position_id_0"/>
+                                    <!-- <button name="action_update_taxes" type="object" string="Actualizar impuestos" help="Volver a calcular todos los impuestos según esta posición fiscal" class="btn-link mb-1 px-0" icon="fa-refresh" confirm="Esto actualizará todos los impuestos según la posición fiscal actualmente establecida." invisible="not show_update_fpos or state in ['sale', 'cancel']"/> -->
+                                </div>
+                                <field name="partner_invoice_id" invisible="1" can_create="True" can_write="True" field_id="partner_invoice_id_0"/>
+                                <field name="journal_id" />
+                                <field name="invoice_status" invisible="state != 'sale'" field_id="invoice_status_0"/>
+                                <!-- test_event_configurator -->
+                                </group>
+                            <group name="sale_shipping" string="Envío">
+                                <label for="commitment_date" string="Fecha de entrega"/>
+                                <div name="commitment_date_div" class="o_row">
+                                    <field name="commitment_date" readonly="state == 'cancel' or locked" on_change="1" field_id="commitment_date_0"/>
+                                    <span name="expected_date_span" class="text-muted">Esperado: <field name="expected_date" class="oe_inline" widget="date" on_change="1" field_id="expected_date_0"/></span>
+                                </div>
+                            </group>
+                            <group string="Seguimiento" name="sale_reporting">
+                                <field name="origin" field_id="origin_0"/>
+                                <field name="campaign_id" options="{'create_name_field': 'title'}" can_create="True" can_write="True" field_id="campaign_id_0"/>
+                                <field name="medium_id" can_create="True" can_write="True" field_id="medium_id_0"/>
+                                <field name="source_id" can_create="True" can_write="True" field_id="source_id_0"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Firma del cliente" name="customer_signature" invisible="not require_signature and not signed_by and not signature and not signed_on">
+                        <group>
+                            <field name="signed_by" readonly="signature" field_id="signed_by_0"/>
+                            <field name="signed_on" readonly="signature" field_id="signed_on_0"/>
+                            <field name="signature" widget="image" field_id="signature_0"/>
+                        </group>
+                    </page>
+                <page string="Notas" name="notes">
+                    <field name="internal_note_display" nolabel="1" placeholder="Notas internas" field_id="internal_note_display_0"/>
+                </page>
+                </notebook>
+            </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids"/>
+                <field name="activity_ids"/>
+                <field name="message_ids"/>
+            </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista Lista -->
+    <record id="view_headhunting_contract_tree" model="ir.ui.view">
+        <field name="name">headhunting.contract.tree</field>
+        <field name="model">headhunting.contract</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="client_id" />
+                <field name="job_positions" />
+                <field name="hr_department_id" />
+                <!-- Agrega más columnas aquí -->
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista Kanban -->
+    <record id="view_headhunting_contract_kanban" model="ir.ui.view">
+        <field name="name">headhunting.contract.kanban</field>
+        <field name="model">headhunting.contract</field>
+        <field name="type">kanban</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+
+                    <!-- Tarjeta Kanban -->
+                    <t t-name="kanban-box">
+                        <div class="o_kanban_card">
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <field name="name" />
+                                </div>
+                            </div>
+                            <div class="o_kanban_card_content">
+                                <div class="o_kanban_card_content_section">
+                                    <div class="o_kanban_card_content_section_title">
+                                        <span>Cliente</span>
+                                    </div>
+                                    <div class="o_kanban_card_content_section_content">
+                                        <field name="client_id" />
+                                    </div>
+                                </div>
+                                <div class="o_kanban_card_content_section">
+                                    <div class="o_kanban_card_content_section_title">
+                                        <span>Fecha de inicio</span>
+                                    </div>
+                                    <div class="o_kanban_card_content_section_content">
+                                        <field name="start_date" />
+                                    </div>
+                                </div>
+                                <div class="o_kanban_card_content_section">
+                                    <div class="o_kanban_card_content_section_title">
+                                        <span>Fecha de fin</span>
+                                    </div>
+                                    <div class="o_kanban_card_content_section_content">
+                                        <field name="end_date" />
+                                    </div>
+                                </div>
+                                <div class="o_kanban_card_content_section">
+                                    <div class="o_kanban_card_content_section_title">
+                                        <span>Estado</span>
+                                    </div>
+                                    <div class="o_kanban_card_content_section_content">
+                                        <field name="state" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vista Cohorte -->
+    <!-- Define la vista de cohorte según tus necesidades -->
+
+    <!-- Vista Calendario -->
+    <!-- Define la vista de calendario según tus necesidades -->
+
+    <!-- Vista Actividad -->
+    <!-- Define la vista de actividad según tus necesidades -->
+
+    <!-- Acción -->
+
+     <!-- Action -->
+<record id="action_headhunting_contract" model="ir.actions.act_window">
+    <field name="name">Contractos</field>
+    <field name="res_model">headhunting.contract</field>
+    <field name="view_mode">tree,form,kanban</field>
+    <field name="domain">[]</field>
+    <field name="context">{}</field>
+    <field name="help" type="html">
+      <p class="oe_view_nocontent_create">
+        Click to add a new contracts
+      </p>
+    </field>
+  </record>
+
+  
+
+
   </data>
 
   <menuitem id="menu_headhunting" name="Headhunting" sequence="10"/>
     <menuitem id="menu_headhunting_candidates" name="Candidatos" parent="menu_headhunting" action="action_headhunting_candidates" sequence="10"/>
 
-    <menuitem id="menu_candidate_comparison" name="Tabla de comparación" parent="menu_headhunting"  action= "action_candidate_comparison" />
+    <menuitem id="menu_candidate_comparison" name="Tabla de comparación" parent="headhunting.menu_headhunting"  action= "action_candidate_comparison" />
+    <menuitem id="menu_headhunting_client" name="Clientes" sequence="10" parent="headhunting.menu_headhunting" action= "action_headhunting_client" />
+
+    <menuitem id="menu_headhunting_contract" name="Contractos" parent="headhunting.menu_headhunting" action="action_headhunting_contract" sequence="10"/>
 
 
   <!-- parent -->

@@ -19,6 +19,7 @@ headhunting    """,
     'data': [
         'security/ir.model.access.csv',
         'views/hh_candidate.xml',
+        'views/hh_client.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

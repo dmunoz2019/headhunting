@@ -34,6 +34,7 @@ class HeadHuntingContract(models.Model):
     job_positions = fields.One2many('headhunting.job_position', 'contract_id', string='Job Positions')
     hr_department_id = fields.Many2one('headhunting.department', string='Department', required=True, ondelete='cascade', index=True, copy=False)
 
+
 class HeadHuntingProductTemplate(models.Model):
     _name = 'headhunting.product_template'
     _description = 'headhunting.product_template'
@@ -65,6 +66,7 @@ class HeadHuntingCandidate(models.Model):
     _name = 'headhunting.candidate'
     _description = 'headhunting.candidate'
     _inherits = {'hr.applicant': 'hr_applicant_id'}
+    
     partner_email = fields.Char(string='Email', required=True, index=True, copy=False, related='partner_id.email', store=True , readonly=False)
     hr_applicant_id = fields.Many2one('hr.applicant', string='Applicant', required=True, ondelete='cascade', index=True, copy=False)
     job_position_ids = fields.Many2many('headhunting.job_position', 'job_position_candidate_rel', 'candidate_id', 'job_position_id', string='Job Positions')
